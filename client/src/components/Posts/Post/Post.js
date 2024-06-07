@@ -16,17 +16,17 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 
 import { deletePost, likePost } from "../../../features/posts/postsSlice";
+import defaultImage from "../../../images/duck_pic.jpg";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
 
   return (
     <Root>
       <Card className="card">
         <CardMedia
-          component="img"
           className="media"
-          image={post.selectedFile}
+          image={post.selectedFile || defaultImage}
           title={post.title}
         />
         <div className="overlay">
@@ -36,7 +36,11 @@ const Post = ({ post }) => {
           </Typography>
         </div>
         <div className="overlay2">
-          <Button style={{ color: "white" }} size="small" onClick={() => {}}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => setCurrentId(post._id)}
+          >
             <MoreHorizIcon fontSize="default" />
           </Button>
         </div>
@@ -45,8 +49,11 @@ const Post = ({ post }) => {
             {post.tags.map((tag) => `#${tag} `)}
           </Typography>
         </div>
+        <Typography className="title" variant="h5" gutterBottom>
+          {post.title}
+        </Typography>
         <CardContent>
-          <Typography className="title" variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom>
             {post.message}
           </Typography>
         </CardContent>
@@ -62,6 +69,7 @@ const Post = ({ post }) => {
           <Button
             size="small"
             color="primary"
+            consol
             onClick={() => dispatch(deletePost(post._id))}
           >
             <DeleteIcon fontSize="small" />

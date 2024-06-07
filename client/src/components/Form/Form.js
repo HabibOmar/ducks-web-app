@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
 import Root from "./styles";
 import { TextField, Button, Typography, Paper } from "@mui/material";
-import { createPost } from "../../features/posts/postsSlice";
+import { createPost, updatePost } from "../../features/posts/postsSlice";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -14,9 +14,18 @@ const Form = () => {
     selectedFile: "",
   });
 
+  const post = useSelector((state) =>
+    currentId ? state.posts.posts.find((p) => p._id === currentId) : null
+  );
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
   const dispatch = useDispatch();
 
   const clear = () => {
+    setCurrentId(null);
     setPostData({
       creator: "",
       title: "",
@@ -28,7 +37,11 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    if (currentId) {
+      dispatch(updatePost({ id: currentId, post: postData }));
+    } else {
+      dispatch(createPost(postData));
+    }
     clear();
   };
 
@@ -36,7 +49,9 @@ const Form = () => {
     <Root>
       <Paper className="paper">
         <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Typography variant="h6">Creating a Duck Memory</Typography>
+          <Typography variant="h6">
+            {currentId ? "Editing" : "Creating"} a Duck Memory
+          </Typography>
           <TextField
             name="creator"
             variant="outlined"
@@ -81,6 +96,7 @@ const Form = () => {
           />
           <div className="fileInput">
             <FileBase
+              name="selectedFile"
               type="file"
               multiple={false}
               onDone={({ base64 }) =>

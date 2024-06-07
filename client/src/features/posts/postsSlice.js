@@ -57,7 +57,7 @@ export const deletePost = createAsyncThunk(
       await api.deletePost(id);
       return id;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
