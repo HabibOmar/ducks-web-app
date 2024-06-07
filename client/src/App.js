@@ -1,12 +1,20 @@
-import React from 'react';
-import { Container, AppBar, Typography, Grow, Grid } from '@mui/material';
+import React, { useEffect } from "react";
+import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
 
-import Posts from './components/Posts/Posts';
-import Form from './components/Form/Form';
-import ducks from './images/duck_pic.jpg';
-import Root from './styles'; // Update the import path as necessary
+import Posts from "./components/Posts/Posts";
+import Form from "./components/Form/Form";
+import ducks from "./images/duck_pic.jpg";
+import Root from "./styles"; // Update the import path as necessary
+import { getPosts } from "./features/posts/postsSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <Container maxWidth="lg">
       <Root>
@@ -18,7 +26,12 @@ const App = () => {
         </AppBar>
         <Grow in>
           <Container>
-            <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
+            <Grid
+              container
+              justifyContent="space-between"
+              alignItems="stretch"
+              spacing={3}
+            >
               <Grid item xs={12} sm={7}>
                 <Posts />
               </Grid>

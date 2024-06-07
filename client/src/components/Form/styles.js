@@ -1,22 +1,22 @@
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 
-const Root = styled('div')(({ theme }) => ({
-  '& .MuiTextField-root': {
+const Root = styled("div")(({ theme }) => ({
+  ".MuiTextField-root": {
     margin: theme.spacing(1),
   },
-  '& paper':{
+  ".paper": {
     padding: theme.spacing(2),
   },
-  '& form': {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+  form: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
-  '& .fileInput': {
-    width: '97%',
-    margin: '10px 0',
+  ".fileInput": {
+    width: "97%",
+    margin: "10px 0",
   },
-  '& .buttonSubmit': {
+  ".buttonSubmit": {
     marginBottom: 10,
   },
 }));
