@@ -2,8 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 import postRoutes from "./routes/posts.js";
+
+dotenv.config();
 
 const app = express();
 
@@ -13,8 +16,6 @@ app.use(cors());
 
 app.use("/posts", postRoutes);
 
-const CONNECTION_URL =
-  "mongodb+srv://omar1farouk:EmQ8lWkq38jMYX3B@memorycluster.yufllgg.mongodb.net/?retryWrites=true&w=majority&appName=MemoryCluster";
 const PORT = process.env.PORT || 5000;
 
 mongoose
