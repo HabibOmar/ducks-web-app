@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AppBar, Avatar, Toolbar, Typography, Button } from "@mui/material";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 import ducks from "../../images/duck_pic.jpg";
 import Root from "./styles";
@@ -15,16 +16,24 @@ const Navbar = () => {
 
   const Logout = () => {
     dispatch(logout(true));
-    navigate("/");
     setUser(null);
+    navigate("/");
+    navigate("/");
   };
 
-  useEffect(() => {
-    const clientId = user?.clientId;
+  useEffect(
+    (Logout, user) => {
+      const token = user?.token;
 
-    // JWT
-    setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+      if (token) {
+        const decodedToken = jwtDecode(token);
+
+        if (decodedToken.exp * 1000 < new Date().getTime()) Logout();
+      }
+      setUser(JSON.parse(localStorage.getItem("profile")));
+    },
+    [location]
+  );
 
   return (
     <Root>
