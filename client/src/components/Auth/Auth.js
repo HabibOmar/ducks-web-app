@@ -12,15 +12,25 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { login, signup } from "../../features/auth/authSlice";
 
 import { auth } from "../../features/auth/authSlice";
 import Icon from "./icon";
 import Input from "./input";
 import Root from "./styles";
 
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,20 +40,29 @@ const Auth = () => {
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    handleShowPassword(false);
+    setShowPassword(false);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signup(formData));
+    } else {
+      dispatch(login(formData));
+    }
+    navigate("/");
+  };
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const googleSuccess = async (res) => {
+    const token = res?.credential;
     const result = jwtDecode(res?.credential);
-    const clienId = res?.clienId;
 
     try {
-      dispatch(auth({ result, clienId }));
-
+      dispatch(auth({ result, token }));
       navigate("/");
     } catch (error) {
       console.log(error);
