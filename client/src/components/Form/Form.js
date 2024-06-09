@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
 import Root from "./styles";
 import { TextField, Button, Typography, Paper } from "@mui/material";
-import { createPost, updatePost } from "../../features/posts/postsSlice";
+import {
+  createPost,
+  getPosts,
+  updatePost,
+} from "../../features/posts/postsSlice";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
@@ -17,13 +21,13 @@ const Form = ({ currentId, setCurrentId }) => {
     currentId ? state.posts.posts.find((p) => p._id === currentId) : null
   );
 
+  const dispatch = useDispatch();
+
   const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
-
-  const dispatch = useDispatch();
 
   const clear = () => {
     setCurrentId(null);
@@ -39,8 +43,12 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
     if (currentId) {
       dispatch(
-        updatePost(currentId, { ...postData, name: user?.result?.name })
+        updatePost({
+          id: currentId,
+          post: { ...postData, name: user?.result?.name },
+        })
       );
+      dispatch(getPosts());
     } else {
       dispatch(createPost({ ...postData, name: user?.result?.name }));
     }

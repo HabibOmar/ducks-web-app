@@ -8,6 +8,7 @@ export const login = createAsyncThunk(
       const { data } = await api.login(formData);
       return data;
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -39,8 +40,6 @@ const authSlice = createSlice({
       return { ...state, authData: action?.payload };
     },
     logout: (state) => {
-      localStorage.clear();
-
       return { ...state, authData: null };
     },
   },

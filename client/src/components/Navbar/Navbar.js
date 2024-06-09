@@ -7,17 +7,19 @@ import { jwtDecode } from "jwt-decode";
 import ducks from "../../images/duck_pic.jpg";
 import Root from "./styles";
 import { logout } from "../../features/auth/authSlice";
+import { getPosts } from "../../features/posts/postsSlice";
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
 
   const Logout = () => {
-    dispatch(logout(true));
+    dispatch(logout());
+    localStorage.clear();
     setUser(null);
-    navigate("/");
+    dispatch(getPosts());
     navigate("/");
   };
 
