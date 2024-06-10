@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   Container,
@@ -13,7 +13,7 @@ import { MuiChipsInput } from "mui-chips-input";
 
 import Root from "./styles";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getPosts, getPostsBySearch } from "../../features/posts/postsSlice";
+import { getPostsBySearch } from "../../features/posts/postsSlice";
 import Pagination from "../Pagination";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
@@ -28,7 +28,6 @@ const Home = () => {
   const query = useQuery();
   const navigate = useNavigate();
   const page = query.get("page") || 1;
-  const searchQuery = query.get("searchQuery");
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
 

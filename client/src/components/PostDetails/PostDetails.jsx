@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useNavigate } from 'react-router-dom';
 import Root from './styles';
-import { getPost } from '../../features/posts/postsSlice';
+import { getPost, getPostsBySearch } from '../../features/posts/postsSlice';
 import default_duck from '../../images/duck_pic.jpg';
 
 const PostDetails = () => {
-  const { post, posts, status } = useSelector((state) => state.posts);
+  const { post, posts: { data: posts = [] }, status } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -16,7 +16,17 @@ const PostDetails = () => {
   useEffect(() => {
 
     dispatch(getPost(id));
-  }, [id]);
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (post) {
+      dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
+      }
+    }, [post, dispatch]);
+
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post?._id).slice(0, 4);
+
+  const openPosts = (_id) => navigate(`/posts/${_id}`);
 
   if (!post) return null;
 
@@ -50,7 +60,23 @@ const PostDetails = () => {
             <img className="media" src={post.selectedFile || default_duck} alt={post.title} />
           </div>
         </div>
-
+        {recommendedPosts.length > 0 && (
+         <div className="section">
+          <Typography gutterBottom variant="h5">You might also like:</Typography>
+          <Divider />
+          <div className="recommendedPosts">
+            {recommendedPosts?.map(({ title, name, message, likes, selectedFile, _id }) => (
+              <div style={{ margin: '20px', cursor: 'pointer' }} onClick={() => openPosts(_id)} key={_id}>
+                <Typography gutterBottom variant="h6">{title}</Typography>
+                <Typography gutterBottom variant="subtitle2">{name}</Typography>
+                <Typography gutterBottom variant="subtitle2">{message}</Typography>
+                <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
+                <img src={selectedFile || default_duck} width="200px" alt="duck" />
+              </div>
+            ))}
+              </div>
+          </div> 
+        )}
       </Paper>
     </Root>
   )

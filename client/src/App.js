@@ -9,8 +9,8 @@ import Home from "./components/Home/Home";
 import Auth from "./components/Auth/Auth";
 
 const App = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
-  const ProtectedRoute = ({ user, children }) => {
+  const ProtectedRoute = ({ children }) => {
+    const user = JSON.parse(localStorage.getItem("profile"));
     return user ? <Navigate to="/posts" /> : children;
   };
 
@@ -27,7 +27,7 @@ const App = () => {
             <Route
               path="/auth"
               element={
-                <ProtectedRoute user={user}>
+                <ProtectedRoute>
                   <Auth />
                 </ProtectedRoute>
               }

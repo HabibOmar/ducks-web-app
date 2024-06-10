@@ -29,6 +29,8 @@ const Root = styled("div")(({ theme }) => ({
   },
   ".recommendedPosts": {
     display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },

@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Grid, CircularProgress } from "@mui/material";
 
 import Post from "./Post/Post";
 import Root from "./styles";
-import { useNavigate } from "react-router-dom";
 
 const Posts = ({ setCurrentId }) => {
-  const navigate = useNavigate();
   const {
     posts: { data: posts = [] },
     status,
