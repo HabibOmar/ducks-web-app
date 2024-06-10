@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getPostsBySearch,
   getPosts,
   createPost,
   updatePost,
@@ -7,9 +8,11 @@ import {
   likePost,
 } from "../controllers/posts.js";
 import auth from "../middleware/auth.js";
+import { get } from "mongoose";
 
 const router = express.Router();
 
+router.get("/search", getPostsBySearch);
 router.get("/", getPosts);
 router.post("/", auth, createPost);
 router.patch("/:id", auth, updatePost);

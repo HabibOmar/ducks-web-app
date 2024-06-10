@@ -21,7 +21,6 @@ const Root = styled("div")(({ theme }) => ({
     fontWeight: 300,
   },
   ".image": {
-    marginLeft: "10px",
     marginTop: "5px",
   },
   ".toolbar": {
@@ -54,6 +53,8 @@ const Root = styled("div")(({ theme }) => ({
   ".brandContainer": {
     display: "flex",
     alignItems: "center",
+    textDecoration: "none",
+    gap: "15px",
   },
   ".purple": {
     color: theme.palette.getContrastText(deepPurple[500]),

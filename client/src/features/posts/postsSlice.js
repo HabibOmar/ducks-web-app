@@ -14,6 +14,22 @@ export const getPosts = createAsyncThunk(
   }
 );
 
+export const getPostsBySearch = createAsyncThunk(
+  "posts/getPostsBySearch",
+  async (searchQuery, thunkAPI) => {
+    try {
+      const {
+        data: { data },
+      } = await api.fetchPostsBySearch(searchQuery);
+
+      console.log(data);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const createPost = createAsyncThunk(
   "posts/createPost",
   async (post, thunkAPI) => {
@@ -105,6 +121,17 @@ const postsSlice = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.posts = state.posts.filter((post) => post._id !== action.payload);
+      })
+      .addCase(getPostsBySearch.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getPostsBySearch.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.posts = action.payload;
+      })
+      .addCase(getPostsBySearch.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       });
   },
 });

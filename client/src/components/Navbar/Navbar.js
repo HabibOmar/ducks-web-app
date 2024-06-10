@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 
 import ducks from "../../images/duck_pic.jpg";
+import kinfe_duck from "../../images/duck2.png";
 import Root from "./styles";
 import { logout } from "../../features/auth/authSlice";
 import { getPosts } from "../../features/posts/postsSlice";
@@ -40,18 +41,12 @@ const Navbar = () => {
   return (
     <Root>
       <AppBar className="appBar" position="static" color="inherit">
-        <div className="brandContainer">
-          <Typography
-            component={Link}
-            to="/"
-            className="heading"
-            variant="h2"
-            align="center"
-          >
+        <Link to="/" className="brandContainer">
+          <img className="image" src={kinfe_duck} alt="memories" height="60" />
+          <Typography className="heading" variant="h2" align="center">
             Ducks
           </Typography>
-          <img className="image" src={ducks} alt="memories" height="60" />
-        </div>
+        </Link>
         <Toolbar className="toolbar">
           {user ? (
             <div className="profile">
