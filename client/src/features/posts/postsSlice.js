@@ -21,8 +21,6 @@ export const getPostsBySearch = createAsyncThunk(
       const {
         data: { data },
       } = await api.fetchPostsBySearch(searchQuery);
-
-      console.log(data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -78,10 +76,23 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+export const getPost = createAsyncThunk(
+  "posts/getPost",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.fetchPost(id);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 // Slice
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
+    post: null,
     posts: { data: [], currentPage: 1, numberOfPages: 1 },
     status: "idle",
     error: null,
@@ -134,6 +145,18 @@ const postsSlice = createSlice({
       .addCase(getPostsBySearch.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(getPost.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getPost.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.post = action.payload;
+      })
+      .addCase(getPost.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+        console.log("error", action.payload);
       });
   },
 });

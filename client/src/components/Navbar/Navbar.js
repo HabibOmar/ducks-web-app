@@ -20,7 +20,6 @@ const Navbar = () => {
     localStorage.clear();
     setUser(null);
     dispatch(getPosts());
-    console.log("logout");
     navigate("/");
   };
 
