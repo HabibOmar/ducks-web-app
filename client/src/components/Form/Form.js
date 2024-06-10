@@ -67,7 +67,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   return (
     <Root>
-      <Paper className="paper">
+      <Paper className="paper" elevation={6}>
         <form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Typography variant="h6">
             {currentId ? "Editing" : "Creating"} a Duck Memory
