@@ -4,9 +4,9 @@ import * as api from "../../api/index.js";
 // Async Thunks
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
-  async (_, thunkAPI) => {
+  async (page, thunkAPI) => {
     try {
-      const { data } = await api.fetchPosts();
+      const { data } = await api.fetchPosts(page);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -73,7 +73,7 @@ export const deletePost = createAsyncThunk(
       await api.deletePost(id);
       return id;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -82,7 +82,7 @@ export const deletePost = createAsyncThunk(
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
-    posts: [],
+    posts: { data: [], currentPage: 1, numberOfPages: 1 },
     status: "idle",
     error: null,
   },
@@ -101,33 +101,35 @@ const postsSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(createPost.fulfilled, (state, action) => {
-        state.posts.push(action.payload);
+        state.posts.data.push(action.payload);
       })
       .addCase(updatePost.fulfilled, (state, action) => {
-        const index = state.posts.findIndex(
+        const index = state.posts.data.findIndex(
           (post) => post._id === action.payload._id
         );
         if (index !== -1) {
-          state.posts[index] = action.payload;
+          state.posts.data[index] = action.payload;
         }
       })
       .addCase(likePost.fulfilled, (state, action) => {
-        const index = state.posts.findIndex(
+        const index = state.posts.data.findIndex(
           (post) => post._id === action.payload._id
         );
         if (index !== -1) {
-          state.posts[index] = action.payload;
+          state.posts.data[index] = action.payload;
         }
       })
       .addCase(deletePost.fulfilled, (state, action) => {
-        state.posts = state.posts.filter((post) => post._id !== action.payload);
+        state.posts.data = state.posts.data.filter(
+          (post) => post._id !== action.payload
+        );
       })
       .addCase(getPostsBySearch.pending, (state) => {
         state.status = "loading";
       })
       .addCase(getPostsBySearch.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.posts = action.payload;
+        state.posts.data = action.payload;
       })
       .addCase(getPostsBySearch.rejected, (state, action) => {
         state.status = "failed";

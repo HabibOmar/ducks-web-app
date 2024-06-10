@@ -8,7 +8,6 @@ import {
   likePost,
 } from "../controllers/posts.js";
 import auth from "../middleware/auth.js";
-import { get } from "mongoose";
 
 const router = express.Router();
 

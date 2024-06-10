@@ -4,7 +4,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 
-import ducks from "../../images/duck_pic.jpg";
 import kinfe_duck from "../../images/duck2.png";
 import Root from "./styles";
 import { logout } from "../../features/auth/authSlice";
@@ -21,6 +20,7 @@ const Navbar = () => {
     localStorage.clear();
     setUser(null);
     dispatch(getPosts());
+    console.log("logout");
     navigate("/");
   };
 
