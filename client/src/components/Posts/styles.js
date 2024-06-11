@@ -7,7 +7,7 @@ const Root = styled("div")(({ theme }) => ({
     margin: "30px 0",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "center",
     padding: "10px 50px",
   },

@@ -66,7 +66,7 @@ const Home = () => {
             <Grid item xs={12} sm={7} md={9}>
               <Posts setCurrentId={setCurrentId} />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={5} md={3}>
               <AppBar
                 className="AppBarSearch"
                 position="static"
