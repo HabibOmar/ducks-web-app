@@ -3,9 +3,11 @@ import { Paper, Typography, CircularProgress, Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import Root from './styles';
 import { getPost, getPostsBySearch } from '../../features/posts/postsSlice';
 import default_duck from '../../images/duck_pic.jpg';
+import CommentSection from './CommentSection';
 
 const PostDetails = () => {
   const { post, posts: { data: posts = [] }, status } = useSelector((state) => state.posts);
@@ -53,7 +55,7 @@ const PostDetails = () => {
             <Divider style={{ margin: '20px 0' }} />
             <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
             <Divider style={{ margin: '20px 0' }} />
-            <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+            <CommentSection post={post}/>
             <Divider style={{ margin: '20px 0' }} />
           </div>
           <div className="imageSection">

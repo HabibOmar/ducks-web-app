@@ -116,3 +116,18 @@ export const getPost = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const commentPost = async (req, res) => {
+  const { id } = req.params;
+  const { comment } = req.body;
+  try {
+    const post = await Postmessage.findById(id);
+    post.comments.push(comment);
+    const updatedPost = await Postmessage.findByIdAndUpdate(id, post, {
+      new: true,
+    });
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};

@@ -1,10 +1,10 @@
 import { styled } from "@mui/system";
 
-const Root = styled("div")(({ theme }) => ({
+const Root = styled("div")(() => ({
   "& .media": {
     height: 0,
     paddingTop: "56.25%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
     backgroundBlendMode: "darken",
   },
   "& .border": {
@@ -20,6 +20,10 @@ const Root = styled("div")(({ theme }) => ({
     borderRadius: "15px",
     height: "100%",
     position: "relative",
+    transition: "box-shadow 0.3s ease-in-out", // Add transition for smooth animation
+    "&:hover": {
+      boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)", // Add shadow on hover
+    },
   },
   "& .overlay": {
     position: "absolute",
@@ -30,7 +34,7 @@ const Root = styled("div")(({ theme }) => ({
   "& .overlay2": {
     position: "absolute",
     top: "20px",
-    right: "20px",
+    right: "10px",
     color: "white",
   },
   "& .grid": {

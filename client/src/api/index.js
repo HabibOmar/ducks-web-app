@@ -20,6 +20,8 @@ export const fetchPostsBySearch = (searchQuery) =>
     }`
   );
 export const createPost = (newPost) => API.post("/posts", newPost);
+export const commentPost = (id, comment) =>
+  API.post(`/posts/${id}/commentPost`, comment);
 export const updatePost = (id, updatedPost) =>
   API.patch(`/posts/${id}`, updatedPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);

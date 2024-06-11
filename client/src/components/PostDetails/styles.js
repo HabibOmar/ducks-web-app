@@ -43,6 +43,15 @@ const Root = styled("div")(({ theme }) => ({
     borderRadius: "15px",
     height: "39vh",
   },
+  ".commentOuterContainer": {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  ".commentsInnerContainer": {
+    height: "200px",
+    overflowY: "auto",
+    marginRight: "30px",
+  },
 }));
 
 export default Root;
